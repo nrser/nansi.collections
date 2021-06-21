@@ -4,7 +4,8 @@ from subprocess import run
 from pathlib import Path
 import shlex
 
-from nansi import logging
+import splatlog as logging
+
 from nansi.plugins.action.args.arg import Arg
 from nansi.plugins.action.args.base import ArgsBase
 from nansi.plugins.action.args.casts import autocast
@@ -13,6 +14,7 @@ from nansi.plugins.action.compose import ComposeAction
 from nansi.constants import REPO_ROOT
 from nansi.utils.decorators import lazy_property
 from nansi.utils.collections import pick
+
 
 LOG = logging.getLogger(__name__)
 WGCONF_ROOT = REPO_ROOT / "packages" / "wgconf"

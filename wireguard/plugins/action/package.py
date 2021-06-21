@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import Literal, Optional
-import logging
+
+import splatlog as logging
 
 from nansi.plugins.action.os_resolve import OSResolveAction
 from nansi.plugins.action.args.all import Arg, ArgsBase

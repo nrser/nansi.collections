@@ -1,2 +1,2 @@
-`nrser.nansi.nginx` Role -- Templates, Handlers and Defaults
+`nansi.nginx.support` Role -- Templates, Handlers and Defaults
 ==============================================================================

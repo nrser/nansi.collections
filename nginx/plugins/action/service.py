@@ -8,7 +8,7 @@ from nansi.plugins.action.compose import (
 from nansi.plugins.action.args.all import Arg, OpenArgsBase
 
 # pylint: disable=relative-beyond-top-level
-from .nginx_config import CommonArgs
+from .config import CommonArgs
 
 
 class Args(OpenArgsBase, CommonArgs):

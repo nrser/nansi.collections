@@ -7,7 +7,7 @@ from nansi.plugins.action.compose import ComposeAction
 from nansi.plugins.action.args.all import Arg, ArgsBase
 
 # pylint: disable=relative-beyond-top-level
-from .nginx_config import role_path, CommonArgs
+from .config import role_path, CommonArgs
 
 
 T = TypeVar("T")
