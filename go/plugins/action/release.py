@@ -7,7 +7,7 @@ from nansi.plugins.action.args.all import Arg, ArgsBase, attr_formatter
 from nansi.os_resolve import os_map_resolve
 
 # pylint: disable=relative-beyond-top-level
-from . import release
+from ansible_collections.nansi.archive import release
 
 class Args(ArgsBase):
     version     = Arg( str )
@@ -47,7 +47,7 @@ class ActionModule(ComposeAction):
     def os_system_linux(self):
         args = Args(self._task.args, self._task_vars)
 
-        self.tasks["nrser.nansi.release"](
+        self.tasks.nansi.archive.release(
             name        = args.name,
             state       = args.state,
             version     = args.version,

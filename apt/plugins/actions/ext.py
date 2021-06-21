@@ -111,7 +111,7 @@ class ActionModule(ComposeAction):
             )
 
         if args.has_versions:
-            apt_versions = self.tasks["nrser.nansi.apt_version_resolve"](
+            apt_versions = self.tasks.nansi.apt.version_resolve(
                 packages=[
                     name.to_dict()
                     for name in args.names  # pylint: disable=not-an-iterable

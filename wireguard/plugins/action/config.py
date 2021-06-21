@@ -231,7 +231,7 @@ class Args(ArgsBase):
         return self.dir / "clients"
 
     @property
-    def for_wg_cfg_update(self) -> Dict[str, JSOSType]:
+    def for_cfg_update(self) -> Dict[str, JSOSType]:
         return pick(
             self.to_jsos(),
             {
@@ -377,7 +377,7 @@ class ActionModule(ComposeAction):
             )
 
     def configure(self):
-        self.tasks["nrser.nansi.wg_cfg_update"].add_vars(
+        self.tasks.nansi.wireguard.cfg_update.add_vars(
             ansible_python_interpreter=str(self.args.python_executable),
-        )(**self.args.for_wg_cfg_update)
+        )(**self.args.for_cfg_update)
 

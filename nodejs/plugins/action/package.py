@@ -40,7 +40,7 @@ class ActionModule(ComposeAction):
     def os_family_debian(self):
         args = DebianArgs(self._task.args, self._task_vars)
 
-        self.tasks["nrser.nansi.apt_ext"](
+        self.tasks.nansi.apt.ext(
             names=args.apt_ext_names,
             state=args.state,
             key_url=args.key_url,

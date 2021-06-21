@@ -1,7 +1,7 @@
 allow_duplicates: false
 
 dependencies:
-  - role: nrser.nansi.pyenv
+  - role: nansi.pyenv.install
     vars:
       pyenv_versions:
         - version: 3.8.5

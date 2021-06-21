@@ -55,7 +55,7 @@ def local_client_config_dest(
 class FilterModule:
     def filters(self):
         return dict(
-            wg_cfg_hook_dest=hook_dest,
-            wg_cfg_hook_value=hook_value,
-            wg_cfg_local_client_config_dest=splat(local_client_config_dest),
+            cfg_hook_dest=hook_dest,
+            cfg_hook_value=hook_value,
+            cfg_local_client_config_dest=splat(local_client_config_dest),
         )

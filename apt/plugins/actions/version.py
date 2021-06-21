@@ -21,7 +21,7 @@ class ActionModule(ComposeAction):
     def compose(self):
         args = Args(self._task.args, self._task_vars)
 
-        apt_versions = self.tasks['nrser.nansi.apt_version_resolve'](
+        apt_versions = self.tasks.nansi.apt.version_resolve(
             packages = [
                 # pylint: disable=not-an-iterable
                 dict(name=p.name, version=p.version) for p in args.packages

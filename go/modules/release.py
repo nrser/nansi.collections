@@ -9,7 +9,7 @@ DOCUMENTATION = r'''
 module: go_release
 short_description: Manage installation of a Go release.
 description: >-
-    - Uses M(nrser.nansi.release), supporting multi-version installs.
+    - Uses M(nansi.archive.release), supporting multi-version installs.
     - Though only one will be in the I($PATH).
 options:
     version:
@@ -29,8 +29,8 @@ options:
         default: present
     url:
         description: >-
-            Where go download the archive. M(nrser.nansi.release) will format in
-            I(name), I(version), I(arch), I(system), and I(go_arch) (if
+            Where go download the archive. M(nansi.archive.release) will format
+            in I(name), I(version), I(arch), I(system), and I(go_arch) (if
             available). See examples.
         type: str
         default: >-
@@ -64,7 +64,7 @@ options:
 note:
     - This is an B(action-only) module that composes others.
 seealso:
-    - module: nrser.nansi.release
+    - module: nansi.archive.release
 author:
     - NRSER
 '''
@@ -73,7 +73,7 @@ author:
 EXAMPLES = r'''
 -   name: >-
         Ensure Go 1.15.6 is installed and available in the $PATH
-    nrser.nansi.go_release:
+    nansi.go.release:
         state: present
         version: 1.15.6
         checksum: >-
@@ -81,7 +81,7 @@ EXAMPLES = r'''
 
 -   name: >-
         Ensure Go 1.15.6 is installed but don't mess with the profile
-    nrser.nansi.go_release:
+    nansi.go.release:
         state: present
         version: 1.15.6
         checksum: >-

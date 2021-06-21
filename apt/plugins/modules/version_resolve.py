@@ -11,10 +11,10 @@ from typing import *
 #
 import apt
 
-from ansible_collections.nrser.nansi.plugins.module_utils.fancy import (
+from ansible_collections.nansi.util.plugins.module_utils.fancy import (
     FancyModule,
 )
-from ansible_collections.nrser.nansi.plugins.module_utils.apt.parsed_version import (
+from ansible_collections.nansi.apt.plugins.module_utils.parsed_version import (
     ParsedVersion,
 )
 

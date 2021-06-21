@@ -14,7 +14,7 @@ class ActionModule(ComposeAction):
     def os_family_debian(self):
         args = Args(self._task.args, parent=self)
 
-        self.tasks["nrser.nansi.apt_version"](
+        self.tasks.nansi.apt.version(
             packages = dict(
                 name = args.name,
                 version = args.version,

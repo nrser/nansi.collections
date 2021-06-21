@@ -46,7 +46,7 @@ options:
 note:
     - This is an B(action-only) module that composes others.
 seealso:
-    - module: nrser.nansi.apt_version_resolve
+    - module: nansi.apt.version_resolve
     - module: apt
 author:
     - NRSER
@@ -56,7 +56,7 @@ author:
 EXAMPLES = r'''
 -   name: >-
         Base argument form -- list of multiple packages
-    nrser.nansi.apt_version:
+    nansi.apt.version:
         packages:
             -   state:      present
                 name:       esl-erlang
@@ -68,7 +68,7 @@ EXAMPLES = r'''
 
 -   name: >-
         Concise single-package argument form
-    nrser.nansi.apt_version:
+    nansi.apt.version:
         state:      present
         name:       esl-erlang
         version:    23.0.3

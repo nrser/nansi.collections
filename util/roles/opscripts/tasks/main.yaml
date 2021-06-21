@@ -2,10 +2,10 @@
   loop: >-
     {{ lookup(
       'fileglob',
-      (role_path, 'files', 'bin', "_.*") | nrser.nansi.to_path,
+      (role_path, 'files', 'bin', "_.*") | nansi.util.to_path,
       wantlist=True
     ) }}
   copy:
     src: "{{ item }}"
-    dest: "{{ (opscripts_bin_dest, item | basename) | nrser.nansi.to_path }}"
+    dest: "{{ (opscripts_bin_dest, item | basename) | nansi.util.to_path }}"
     mode: '0755'

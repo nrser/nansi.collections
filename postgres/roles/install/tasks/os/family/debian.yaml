@@ -7,7 +7,7 @@
     pg_deb_pkgs: >-
       {{
         ( pg_version, pg_client, pg_contrib, pg_frontend_dev, pg_backend_dev )
-        | nrser.nansi.pg_deb_pkg_list
+        | nansi.postgres.deb_pkg_list
       }}
 
 - name: Install the gpg key for www.postgresql.org

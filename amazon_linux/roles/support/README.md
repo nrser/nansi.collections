@@ -1,4 +1,4 @@
-`nrser.nansi.amazon_linux` Role
+`nansi.amazon_linux.support` Role
 ==============================================================================
 
 Remains because I haven't figured out a/best way to *provide variables* without

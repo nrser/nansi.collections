@@ -1,4 +1,4 @@
-`nrser.nansi.humans` Role
+`nansi.admin.humans` Role
 ==============================================================================
 
 For the moment, seems this needs to stay a role (as opposed to being converted

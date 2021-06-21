@@ -28,4 +28,4 @@ class ActionModule(OSResolveAction):
     @OSResolveAction.map(family="debian")
     def debian(self):
         args = DebianArgs(self._task.args, self._task_vars)
-        self.tasks["nrser.nansi.apt_ext"](names=args.names, state=args.state)
+        self.tasks.nansi.apt.ext(names=args.names, state=args.state)
