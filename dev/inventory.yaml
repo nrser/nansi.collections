@@ -1,6 +1,12 @@
 all:
   hosts:
-    minimao:
-      ansible_host: 10.0.1.32
+    vagrant:
+      ansible_host: 127.0.0.1
+      ansible_port: 2222
+      ansible_user: vagrant
       ansible_connection: ssh
       ansible_python_interpreter: /usr/bin/python3
+  children:
+    vagrant:
+      hosts:
+        vagrant-ubuntu: {}

@@ -1,12 +1,7 @@
 ---
-- name: Temp minimao playbook
-  hosts: pixeldust
+- name: Test stuff
+  hosts: vagrant
   gather_facts: no
   
-  roles:
-    - role: examples/action_plugin
-  
   tasks:
-    - sudo_task:
-    
-    
+    - command: whoami
