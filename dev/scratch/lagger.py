@@ -1,4 +1,4 @@
-import logging
+import splatlog as logging
 import sys
 
 from rich.table import Table

@@ -95,9 +95,9 @@ DOCUMENTATION = """
 
 from typing import *
 import os
-import logging
+import splatlog as logging
 
-import nansi.logging
+import splatlog as logging
 
 from ansible.errors import AnsibleError, AnsibleParserError
 from ansible.plugins.lookup import LookupBase

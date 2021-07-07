@@ -1,7 +1,7 @@
 # pylint: disable=logging-too-many-args
 
 from __future__ import annotations
-import logging
+import splatlog as logging
 import shlex
 from os.path import basename, isabs, join
 from collections import abc
@@ -229,5 +229,5 @@ class ActionModule(ComposeAction):
         )
 
     def compose(self):
-        service = SystemdDockerService(self._task.args, self._task_vars)
+        service = SystemdDockerService(self._task.args, self)
         getattr(self, f"state_{service.state}")(service)

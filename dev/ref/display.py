@@ -23,7 +23,7 @@ import errno
 import fcntl
 import getpass
 import locale
-import logging
+import splatlog as logging
 import os
 import random
 import subprocess

@@ -69,6 +69,13 @@ class ParsedVersion(apt.package.Version):
         if isinstance(self.src, str):
             return self.src
         return self.src.version
+    
+    def is_match(self, version: str):
+        upstream_version_dashes = self.upstream_version.split("-")
+        for index, dashed_part in enumerate(version.split("-")):
+            if upstream_version_dashes[index] != dashed_part:
+                return False
+        return True
 
     def _cmp(self, other: Any) -> Union[int, Any]:
         if isinstance(other, str):

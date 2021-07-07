@@ -1,7 +1,7 @@
 import re
 from typing import Optional, List, Dict, Any
 import pprint
-import logging
+import splatlog as logging
 from collections.abc import Mapping
 
 from ansible.errors import AnsibleError, AnsibleParserError

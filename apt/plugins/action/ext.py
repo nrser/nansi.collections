@@ -6,7 +6,7 @@ from nansi.plugins.action.compose import ComposeAction
 from nansi.plugins.action.args.all import Arg, OpenArgsBase, os_fact_format
 
 # pylint: disable=relative-beyond-top-level
-from .apt_version import PackageArgs
+from .version import PackageArgs
 
 
 def cast_name(value, expected_type, instance, **context):
@@ -57,6 +57,13 @@ class Args(OpenArgsBase):
     # In order to remove config files
     purge = Arg(bool, True)
 
+    def __init__(self, *args, **kwds):
+        super().__init__(*args, **kwds)
+        if "repo" in self:
+            raise AttributeError(
+                "`repo` arg has been renamed `repository_repo`"
+            )
+
     @property
     def has_versions(self) -> bool:
         for name in self.names:  # pylint: disable=not-an-iterable
@@ -102,11 +109,12 @@ class ActionModule(ComposeAction):
                 state=args.state,
                 **args.key_args(),
             )
-
+        
         if args.has_repository():
-            self.tasks.apt_repository(
+            result = self.tasks.apt_repository(
                 state=args.state,
                 update_cache=(args.state == "present"),
+                # update_cache=True,
                 **args.repository_args(),
             )
 

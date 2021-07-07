@@ -4,7 +4,7 @@ from __future__ import annotations
 from os.path import basename, isabs
 from typing import Any, Dict, List, Literal, Optional, Type
 from urllib.parse import urlparse
-import logging
+import splatlog as logging
 import shlex
 from collections import abc
 
@@ -178,7 +178,7 @@ class ActionModule(ComposeAction):
         return self.tasks.stat(path=path)["stat"]["exists"]
 
     def compose(self):
-        args = Args(self._task.args, self._task_vars)
+        args = Args(self._task.args, self)
 
         if args.state == 'present':
             self.present(args)

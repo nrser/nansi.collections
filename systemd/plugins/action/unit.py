@@ -1,7 +1,7 @@
 # pylint: disable=logging-too-many-args
 
 from __future__ import annotations
-import logging
+import splatlog as logging
 from typing import Any, Dict, Literal, Union
 
 from nansi.plugins.action.compose import ComposeAction

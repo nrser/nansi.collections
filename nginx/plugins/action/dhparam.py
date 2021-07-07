@@ -12,5 +12,5 @@ class Args(OpenArgsBase):
 class ActionModule(ComposeAction):
     def compose(self):
         self.tasks.openssl_dhparam(
-            **Args(self._task.args, self._task_vars).to_dict()
+            **Args(self._task.args, self).to_dict()
         )

@@ -45,7 +45,7 @@ class Args(ArgsBase):
 class ActionModule(ComposeAction):
 
     def os_system_linux(self):
-        args = Args(self._task.args, self._task_vars)
+        args = Args(self._task.args, self)
 
         self.tasks.nansi.archive.release(
             name        = args.name,

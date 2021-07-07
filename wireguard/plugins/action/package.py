@@ -27,5 +27,5 @@ class DebianArgs(Args):
 class ActionModule(OSResolveAction):
     @OSResolveAction.map(family="debian")
     def debian(self):
-        args = DebianArgs(self._task.args, self._task_vars)
+        args = DebianArgs(self._task.args, self)
         self.tasks.nansi.apt.ext(names=args.names, state=args.state)

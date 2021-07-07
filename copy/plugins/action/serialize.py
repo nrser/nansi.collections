@@ -1,5 +1,5 @@
 from __future__ import annotations
-import logging
+import splatlog as logging
 import json
 from typing import Any, Dict, Literal
 import yaml
@@ -94,7 +94,7 @@ class ActionModule(ComposeAction):
         return yaml.dump(args.data, Dumper=AnsibleDumper, **args.yaml_opts)
 
     def compose(self):
-        args = Args(self._task.args, self._task_vars)
+        args = Args(self._task.args, self)
         content = get_fn(self, f"format_{args.format}")(args)
 
         self.tasks.copy(content=content, **args.extras())

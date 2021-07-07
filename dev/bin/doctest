@@ -15,7 +15,7 @@ from rich.padding import Padding
 from rich.table import Table
 
 
-from nansi import logging
+import splatlog as logging
 
 
 C = Console()

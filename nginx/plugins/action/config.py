@@ -8,8 +8,8 @@ from nansi.plugins.action.compose import ComposeAction
 from nansi.plugins.action.args.all import Arg, OpenArgsBase
 
 
-def role_path(rel_path):
-    return Path(__file__).parent.parent.parent / "roles" / "nginx" / rel_path
+def support_role_path(rel_path):
+    return Path(__file__).parents[2] / "roles" / "support" / rel_path
 
 # *&$%^&^ do I really have to do this to make it clean..?
 class Defaults:
@@ -17,7 +17,7 @@ class Defaults:
     def all():
         if hasattr(Defaults, "_all"):
             return getattr(Defaults, "_all")
-        with role_path("defaults/main.yaml").open("r") as file:
+        with support_role_path("defaults/main.yaml").open("r") as file:
             defaults = yaml.safe_load(file)
         setattr(Defaults, "_all", defaults)
         return defaults
@@ -39,7 +39,7 @@ class CommonArgs:
     proxy_websockets = Arg(bool, role_default)
 
 class Args(OpenArgsBase, CommonArgs):
-    src = Arg(str, str(role_path("templates/nginx.conf")))
+    src = Arg(str, str(support_role_path("templates/nginx.conf")))
     dest = Arg(str, lambda self, _: self.default_dest())
 
     def default_dest(self):
@@ -48,7 +48,7 @@ class Args(OpenArgsBase, CommonArgs):
 
 class ActionModule(ComposeAction):
     def compose(self):
-        args = Args(self._task.args, self._task_vars)
+        args = Args(self._task.args, self)
         self.tasks.template.add_vars(
             dir=str(Path(args.dest).parent),
             run_dir=args.run_dir,

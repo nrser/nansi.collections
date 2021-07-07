@@ -19,7 +19,7 @@ class Args(ArgsBase):
 
 class ActionModule(ComposeAction):
     def compose(self):
-        args = Args(self._task.args, self._task_vars)
+        args = Args(self._task.args, self)
 
         apt_versions = self.tasks.nansi.apt.version_resolve(
             packages = [

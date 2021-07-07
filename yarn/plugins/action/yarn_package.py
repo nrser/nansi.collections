@@ -23,7 +23,7 @@ class DebianArgs(Args):
 
 class ActionModule(ComposeAction):
     def os_family_debian(self):
-        args = DebianArgs(self._task.args, self._task_vars)
+        args = DebianArgs(self._task.args, self)
 
         self.tasks.nansi.apt.ext(
             name = args.apt_ext_name,

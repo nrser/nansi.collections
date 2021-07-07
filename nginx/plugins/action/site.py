@@ -7,7 +7,7 @@ from nansi.plugins.action.compose import ComposeAction
 from nansi.plugins.action.args.all import Arg, ArgsBase
 
 # pylint: disable=relative-beyond-top-level
-from .config import role_path, CommonArgs
+from .config import support_role_path, CommonArgs
 
 
 T = TypeVar("T")
@@ -67,8 +67,8 @@ class Args(ArgsBase, CommonArgs):
     http = Arg(Union[bool, STATE_TYPE, Literal["redirect"]], True)
     https = Arg(Union[bool, STATE_TYPE], True)
 
-    http_template = Arg(str, str(role_path("templates/http.conf")))
-    https_template = Arg(str, str(role_path("templates/https.conf")))
+    http_template = Arg(str, str(support_role_path("templates/http.conf")))
+    https_template = Arg(str, str(support_role_path("templates/https.conf")))
 
     lets_encrypt = Arg(bool, False)
 

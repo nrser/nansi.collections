@@ -76,6 +76,7 @@ details:
       debian_revision: "1"
 '''
 
+
 class AptVersionResolve(FancyModule):
     def main(self):
         cache = apt.Cache()
@@ -101,7 +102,7 @@ class AptVersionResolve(FancyModule):
                 (
                     v
                     for v in all_versions
-                    if v.upstream_version == package["version"]
+                    if v.is_match(package["version"])
                 )
             )
 
@@ -109,7 +110,12 @@ class AptVersionResolve(FancyModule):
                 errors.append(
                     {
                         "msg": "No matches found",
-                        "versions": [v.apt_version for v in all_versions],
+                        "versions": [
+                            {
+                                "apt": v.apt_version,
+                                "upsteam": v.upstream_version,
+                            } for v in all_versions
+                        ],
                         **package,
                     }
                 )

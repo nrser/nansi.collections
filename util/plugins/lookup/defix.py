@@ -1,4 +1,4 @@
-import logging
+import splatlog as logging
 
 from ansible.errors import AnsibleError
 from ansible.plugins.lookup import LookupBase
