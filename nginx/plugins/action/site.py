@@ -155,7 +155,7 @@ class Args(ArgsBase, CommonArgs):
 
 class ActionModule(ComposeAction):
     def compose(self):
-        args = Args(self._task.args, self._var_values)
+        args = Args(self._task.args, self)
 
         for config in args.configs:
             if config.available:
