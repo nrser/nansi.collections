@@ -5,7 +5,7 @@ import splatlog as logging
 import shlex
 from os.path import basename, isabs, join
 from collections import abc
-from typing import Any, Dict, Literal, Optional, Type, Union
+from typing import Any, Dict, Iterable, List, Literal, Optional, Type, Union
 
 from nansi.plugins.action.compose import ComposeAction
 from nansi.plugins.action.args.all import Arg, ArgsBase, OpenArgsBase
@@ -111,9 +111,31 @@ class SystemdDockerService(ArgsBase):
     opts = Arg(Optional[TOpts])
     config = Arg.zero_or_more(Config, item_cast=Config.cast)
 
+    # The `COMMAND` (and `[ARGS]`?) arguments to `docker run`.
+    # 
+    # If the argument is a `str` then it is assumed to already be shell-encoded
+    # and is simply appended to the formed `docker run` command.
+    # 
+    # If it's a `List[str]` then it is passed through `shlex.join` first.
+    # 
+    command = Arg(Union[None, str, List[str]])
+
+    @property
+    def command_str(self) -> Optional[str]:
+        if self.command is None:
+            return None
+        if isinstance(self.command, str):
+            return self.command
+        if isinstance(self.command, Iterable):
+            return shlex.join(self.command)
+        raise TypeError(
+            f"Expected `self.command` to be None, str or Iterable[str], "
+            f"found {type(self.command)}: {repr(self.command)}"
+        )
+
     @property
     def exec_start(self) -> str:
-        return shlex.join(
+        shell_str = shlex.join(
             [
                 self.docker_exe,
                 "run",
@@ -124,6 +146,9 @@ class SystemdDockerService(ArgsBase):
                 self.tag,
             ]
         )
+        if self.command_str is not None:
+            shell_str += " " + self.command_str
+        return shell_str
 
     def volumes(self):
         # pylint: disable=unsupported-membership-test,unsubscriptable-object
