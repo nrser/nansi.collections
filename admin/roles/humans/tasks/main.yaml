@@ -62,6 +62,19 @@
     loop_var: _admin
   include_tasks: "{{ role_path }}/tasks/_auth_admin_as_users.yaml"
 
+- with_items: "{{ humans }}"
+  loop_control:
+    loop_var: user
+  when: "humans_git and 'git' in user"
+  include_tasks: "{{ role_path }}/tasks/_git_config.yaml"
+
+# DO THESE THINGS **_LAST_**
+# 
+# If anything _after_ them fails, you usually won't be able to re-run the
+# playbook in a "bootstrap" (first stuff on new host) scenario, which is
+# annoying as all hell.
+# 
+
 # it's much more secure to use ssh keys
 - name: Disallow SSH password authentication
   lineinfile:
@@ -88,9 +101,3 @@
     line: "AllowGroups {{ humans_group }}"
     state: present
   notify: ssh_restart
-
-- with_items: "{{ humans }}"
-  loop_control:
-    loop_var: user
-  when: "humans_git and 'git' in user"
-  include_tasks: "{{ role_path }}/tasks/_git_config.yaml"
