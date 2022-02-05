@@ -1,4 +1,5 @@
-# Global Defaults
+# Global Default Variables
 # ============================================================================
 
+# Max time to wait for a reboot before failing
 reboot_timeout: 600 # in seconds -> 10 mins

@@ -1,0 +1,3 @@
+dependencies:
+  # In general bring in Linux support, in specific the `reboot` handler
+  - role: nansi.linux.support

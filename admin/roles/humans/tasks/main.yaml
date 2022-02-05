@@ -66,7 +66,7 @@
 - name: Disallow SSH password authentication
   lineinfile:
     dest: "{{ humans_sshd_config_path }}"
-    regexp: "^\\#?PasswordAuthentication"
+    regexp: "^\\#?\\s*PasswordAuthentication"
     line: PasswordAuthentication no
     state: present
   notify: ssh_restart
@@ -75,7 +75,7 @@
 - name: Disallow root SSH access
   lineinfile:
     dest: "{{ humans_sshd_config_path }}"
-    regexp: "^PermitRootLogin"
+    regexp: "^\\#?\\s*PermitRootLogin"
     line: PermitRootLogin no
     state: present
   notify: ssh_restart
@@ -84,7 +84,7 @@
     **ONLY** allow SSH login for humans group {{ humans_group }}
   lineinfile:
     dest: "{{ humans_sshd_config_path }}"
-    regexp: "^\\#?AllowGroups"
+    regexp: "^\\#?\\s*AllowGroups"
     line: "AllowGroups {{ humans_group }}"
     state: present
   notify: ssh_restart

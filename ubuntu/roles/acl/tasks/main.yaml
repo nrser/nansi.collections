@@ -1,0 +1,6 @@
+- name: Install acl support tools for becoming unprivileged users
+  apt:
+    update_cache: true
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+    pkg:
+      - acl

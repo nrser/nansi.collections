@@ -1,8 +1,3 @@
-- name: ssh_restart
-  service:
-    name: ssh
-    state: restarted
-
 - name: sysctl_load
   command:
     argv: ["/sbin/sysctl", "-p"]
