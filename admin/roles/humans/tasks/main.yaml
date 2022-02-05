@@ -4,19 +4,19 @@
 # 
 
 - name: >-
-    Create admin group {{ humans_admin_group | f }}
+    Create admin group {{ humans_admin_group }}
   group:
     name: "{{ humans_admin_group }}"
     state: present
 
 - name: >-
-    Create humans group {{ humans_group | f }}
+    Create humans group {{ humans_group }}
   group:
     name: "{{ humans_group }}"
     state: present
 
 - name: >-
-    Allow {{ humans_admin_group | f }} group to have password-less sudo
+    Allow {{ humans_admin_group }} group to have password-less sudo
   lineinfile:
     dest: "{{ humans_sudoers_path }}"
     state: present
@@ -33,7 +33,7 @@
 
 - with_items: "{{ humans }}"
   name: >-
-    Add all human users to {{ humans_group | f }} group
+    Add all human users to {{ humans_group }} group
   user:
     name: "{{ item.name }}"
     groups: "{{ humans_group }}"
@@ -42,7 +42,7 @@
 - with_items: "{{ humans }}"
   when: item.admin | default( false )
   name: >-
-    Add admin users to {{ humans_admin_group | f }} group
+    Add admin users to {{ humans_admin_group }} group
   user:
     name: "{{ item.name }}"
     groups: "{{ humans_admin_group }}"
@@ -81,7 +81,7 @@
   notify: ssh_restart
 
 - name: >-
-    **ONLY** allow SSH login for humans group {{ humans_group | f }}
+    **ONLY** allow SSH login for humans group {{ humans_group }}
   lineinfile:
     dest: "{{ humans_sshd_config_path }}"
     regexp: "^\\#?AllowGroups"

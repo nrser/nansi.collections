@@ -5,7 +5,7 @@
   block:
     - name: >-
         Create directory to save generated client configs at
-        {{ wg_cfg_client_config_dir | f }}
+        {{ wg_cfg_client_config_dir }}
       file:
         path: "{{ wg_cfg_client_config_dir }}"
         state: directory
@@ -14,14 +14,14 @@
     - when: wg_cfg_client_config_rm_old
       name: >-
         Remove existing files in client config dest
-        {{ (wg_cfg_client_config_dir, '*.conf') | join | f }}
+        {{ (wg_cfg_client_config_dir, '*.conf') | join }}
       with_fileglob:
         - "{{ wg_cfg_client_config_dir }}/*.conf }}"
       file:
         path: "{{ wg_cfg_client_config_dir }}/{{ item }}"
       
     - name: >-
-        Save generated client configs to {{ wg_cfg_client_config_dir | f }}
+        Save generated client configs to {{ wg_cfg_client_config_dir }}
       with_dict: "{{ wg_cfg_update_rsp.client_configs }}"
       copy:
         content: "{{ item.value }}"

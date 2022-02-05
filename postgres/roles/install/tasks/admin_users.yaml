@@ -17,7 +17,7 @@
 # os user to be `postgres` by editing `pg_ident.conf`
 - name: >-
     Ensure the `admin` map allows `postgres` os user to log in as the
-    `postgres` role (in {{ pg_indent_conf_path | f }})
+    `postgres` role (in {{ pg_indent_conf_path }})
   lineinfile:
     path: "{{ pg_indent_conf_path }}"
     line: "admin           postgres                postgres"
@@ -37,7 +37,7 @@
 # map in `pg_indent.conf`, which we just created in the last step.
 # 
 - name: >-
-    Ensure line in {{ pg_hba_conf_path | f }} allowing `postgres` and admin
+    Ensure line in {{ pg_hba_conf_path }} allowing `postgres` and admin
     users to log in locally as `postgres`
   lineinfile:
     path: "{{ pg_hba_conf_path }}"
