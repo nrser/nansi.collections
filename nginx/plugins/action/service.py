@@ -18,7 +18,7 @@ class Args(OpenArgsBase, CommonArgs):
     )
     enabled = Arg(bool, True)
     validate = Arg(
-        bool, lambda self, _: self.task_vars.get("nginx_service_validate", True)
+        bool, lambda self, _: self.vars.get("nginx_service_validate", True)
     )
 
 
@@ -36,7 +36,7 @@ class ActionModule(ComposeAction):
         super().handle_failed_result(task, action, result)
 
     def compose(self):
-        args = Args(self._task.args, self._var_values)
+        args = Args(self._task.args, self)
 
         if args.validate:
             self.tasks.command(argv=[args.exe, "-t"])
