@@ -34,18 +34,6 @@ class Args(ArgsBase, CommonArgs):
     # makes more sense next to 'enabled'.
     STATE_TYPE = Literal["enabled", "available", "disabled", "absent"]
 
-    Config = namedtuple(
-        "Config",
-        (
-            "scheme",
-            "available",
-            "enabled",
-            "conf_template",
-            "conf_path",
-            "link_path",
-        ),
-    )
-
     # Props
     # ========================================================================
 
@@ -67,8 +55,13 @@ class Args(ArgsBase, CommonArgs):
     http = Arg(Union[bool, STATE_TYPE, Literal["redirect"]], True)
     https = Arg(Union[bool, STATE_TYPE], True)
 
-    http_template = Arg(str, str(support_role_path("templates/http.conf")))
-    https_template = Arg(str, str(support_role_path("templates/https.conf")))
+    # http_template = Arg(str, str(support_role_path("templates/http.conf")))
+    # https_template = Arg(str, str(support_role_path("templates/https.conf")))
+    conf_template = Arg(str, str(support_role_path("templates/site.conf")))
+
+    filename = Arg(str, lambda self, _: self.default_filename)
+    conf_path = Arg(str, lambda self, _: self.default_conf_path)
+    link_path = Arg(str, lambda self, _: self.default_link_path)
 
     lets_encrypt = Arg(bool, False)
 
@@ -97,6 +90,26 @@ class Args(ArgsBase, CommonArgs):
     def server_name(self) -> str:
         return " ".join(self.server_names)
 
+    @property
+    def default_filename(self) -> str:
+        return f"{self.name}.conf"
+
+    @property
+    def default_conf_path(self) -> str:
+        return join(self.sites_available_dir, self.filename)
+
+    @property
+    def default_link_path(self) -> str:
+        return join(self.sites_enabled_dir, self.filename)
+
+    @property
+    def is_available(self) -> bool:
+        return self.state != "absent"
+
+    @property
+    def is_enabled(self) -> bool:
+        return self.state == "enabled"
+
     def default_server_names(self) -> List[str]:
         return [f"{self.name}.{self.task_vars['inventory_hostname']}"]
 
@@ -111,73 +124,37 @@ class Args(ArgsBase, CommonArgs):
         )
         return f"{self.proxy_scheme}://{netloc}{self.proxy_path}"
 
-    def _config_for(self, scheme: Literal["http", "https"]) -> Args.Config:
-        """`NginxSite.Config` instances for each of the HTTP and HTTPS schemes
-        supported -- packages up state and path information for convenient use.
-
-        Access via `self.configs`.
-        """
-        # Get the state property for this `scheme` -- value of `self.http` or
-        # `self.https`.
-        scheme_state = getattr(self, scheme)
-
-        # Config is available when the site is not absent (prevents *any*
-        # configs from being present) and the scheme wasn't set to be 'absent'
-        # or `False`.
-        available = self.state != "absent" and scheme_state not in (
-            "absent",
-            False,
-        )
-
-        # Config is enabled when the site is enabled (necessary for *any*
-        # configs to be enabled) and the scheme is 'enabled', 'redirect'
-        # (HTTP-only, redirecting to HTTPS) or `True` (default).
-        enabled = self.state == "enabled" and scheme_state in (
-            "enabled",
-            "redirect",
-            True,
-        )
-
-        filename = f"{self.name}.{scheme}.conf"
-        return Args.Config(
-            scheme=scheme,
-            available=available,
-            enabled=enabled,
-            conf_template=getattr(self, f"{scheme}_template"),
-            conf_path=join(self.sites_available_dir, filename),
-            link_path=join(self.sites_enabled_dir, filename),
-        )
-
-    @property
-    def configs(self):
-        return (self._config_for(scheme) for scheme in ("http", "https"))
-
 
 class ActionModule(ComposeAction):
     def compose(self):
         args = Args(self._task.args, self)
 
-        for config in args.configs:
-            if config.available:
-                self.tasks.template.add_vars(site=args, config=config)(
-                    src=self._loader.get_real_file(config.conf_template),
-                    dest=config.conf_path,
-                    # backup=True,
+        if args.is_available:
+            self.tasks.template.add_vars(site=args)(
+                src=self._loader.get_real_file(args.conf_template),
+                dest=args.conf_path,
+                # backup=True,
+            )
+
+            self.tasks.file(
+                path=args.root,
+                state="directory",
+            )
+
+            if args.is_enabled:
+                self.tasks.file(
+                    src=args.conf_path,
+                    dest=args.link_path,
+                    state="link",
                 )
-                if config.enabled:
-                    self.tasks.file(
-                        src=config.conf_path,
-                        dest=config.link_path,
-                        state="link",
-                    )
-                else:
-                    self.tasks.file(
-                        path=config.link_path,
-                        state="absent",
-                    )
             else:
-                for path in (config.link_path, config.conf_path):
-                    self.tasks.file(
-                        path=path,
-                        state="absent",
-                    )
+                self.tasks.file(
+                    path=args.link_path,
+                    state="absent",
+                )
+        else:
+            for path in (args.link_path, args.conf_path):
+                self.tasks.file(
+                    path=path,
+                    state="absent",
+                )
