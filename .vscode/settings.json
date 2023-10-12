@@ -1,13 +1,14 @@
 {
   "python.formatting.provider": "black",
   "python.pythonPath": "${env:HOME}/.pyenv/versions/nrser-nansi.collections/bin/python",
-  "python.linting.pylintEnabled": true,
+  "python.linting.pylintEnabled": false,
   "python.analysis.extraPaths": [
     "${workspaceFolder}/nginx/plugins/action",
   ],
   "python.autoComplete.extraPaths": [
     "${workspaceFolder}/nginx/plugins/action",
   ],
+  "python.analysis.typeCheckingMode": "off",
   "cSpell.words": [
     "genpsk"
   ]
